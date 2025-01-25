@@ -1,7 +1,9 @@
 services:
-  mt5-multitrack:
+  sparksplayer:
     build: .
-    container_name: mt5-multitrack
+    container_name: sparksplayer
     ports:
       - "3000:3000"
     restart: unless-stopped
+    volumes:
+      - "/mnt/d/Instrumentals/Sparks/multitrack:/usr/src/app/client/multitrack"

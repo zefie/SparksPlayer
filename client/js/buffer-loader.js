@@ -7,6 +7,37 @@ function BufferLoader(context, urlList, callback, callbackDraw) {
   this.drawSample = callbackDraw;
 }
 
+BufferLoader.prototype.mergeChannels = function (audioBuffer) {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const numChannels = audioBuffer.numberOfChannels;
+    const length = audioBuffer.length;
+    const sampleRate = audioBuffer.sampleRate;
+
+    if (numChannels < 10) {
+        console.error("The audio file must have at least 10 channels.");
+        return;
+    }
+
+    // Prepare buffers for the merged channels
+    const mergedBuffers = [];
+    for (let i = 0; i < numChannels; i += 2) {
+        const buffer = audioContext.createBuffer(1, length, sampleRate); // 1 output channel
+        const outputData = buffer.getChannelData(0);
+
+        // Get the two channels to merge
+        const data1 = audioBuffer.getChannelData(i);
+        const data2 = audioBuffer.getChannelData(i + 1);
+
+        // Merge by averaging samples
+        for (let j = 0; j < length; j++) {
+            outputData[j] = (data1[j] + data2[j]) / 2;
+        }
+
+        mergedBuffers.push(buffer);
+    }
+    return mergedBuffers;
+};
+
 BufferLoader.prototype.loadBuffer = function (url, index) {
   // Load buffer asynchronously
   console.log('file : ' + url + "loading and decoding");
@@ -31,10 +62,13 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
           alert('error decoding file data: ' + url);
           return;
         }
-        loader.bufferList[index] = buffer;
+	loader.bufferList = loader.mergeChannels(buffer)
+//        loader.bufferList[index] = buffer;
 
         // Let's draw this decoded sample
-        loader.drawSample(buffer, index);
+	for (i = 0; i<loader.bufferList.length; i++) {
+	        loader.drawSample(loader.bufferList[i], i);
+	}
 
         //console.log("In bufferLoader.onload bufferList size is " + loader.bufferList.length + " index =" + index);
         if (++loader.loadCount == loader.urlList.length)

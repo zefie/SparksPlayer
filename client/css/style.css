@@ -17,7 +17,7 @@ body {
     margin-left: 680px;
     text-align: center;
     color: white;
-    background: black;
+    background: linear-gradient(to bottom right, #346beb, #1b1885);
     border: 1px solid grey;
     z-index: 10;
 }
@@ -42,7 +42,8 @@ body {
     height: 200px;
     width: 680px;
     text-align: center;
-    background: #EEE;
+    background: linear-gradient(to bottom right, #346beb, #1b1885);
+    color: #EEE;
     border: 1px solid grey;
     z-index: 10;
 }

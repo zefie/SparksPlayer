@@ -1,8 +1,9 @@
 function Track(songName, instrument) {
     // name of the track : bass, guitar, voice, etc.
     this.name = instrument.name;
+    this.extension = "mp4"
     // url of the track in the form http://.../track/track_name
-    this.url = "multitrack/" + songName + "/" + instrument.sound;
+    this.url = "multitrack/" + songName + "." + this.extension;
     // decoded audio buffer
     this.decodedBuffer;
     // peaks for drawing the sample

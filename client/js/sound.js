@@ -8,7 +8,7 @@ var currentSong;
 // The audio context
 var context;
 
-var buttonPlay, buttonStop, buttonPause, buttonRecordMix;
+var buttonPlay, buttonStop, buttonPause;
 // List of tracks and mute buttons
 var divTrack;
 //The div where we display messages
@@ -56,7 +56,6 @@ function init() {
     buttonPlay = document.querySelector("#bplay");
     buttonPause = document.querySelector("#bpause");
     buttonStop = document.querySelector("#bstop");
-    buttonRecordMix = document.querySelector("#brecordMix");
 
     divTrack = document.getElementById("tracks");
     divConsole = document.querySelector("#messages");
@@ -214,15 +213,15 @@ function resetAllBeforeLoadingANewSong() {
     divTrack.innerHTML = "";
 
 
-    buttonRecordMix.disabled = true;
 }
 
 var bufferLoader;
 
 function loadAllSoundSamples() {
+
     bufferLoader = new BufferLoader(
         context,
-        currentSong.getUrlsOfTracks(),
+        currentSong.getUrlOfTracks(),
         finishedLoading,
         drawTrack
     );
@@ -237,7 +236,8 @@ function drawTrack(decodedBuffer, trackNumber) {
     var trackName = currentSong.tracks[trackNumber].name;
     //trackName = trackName.slice(trackName.lastIndexOf("/")+1, trackName.length-4);
 
-    waveformDrawer.init(decodedBuffer, View.masterCanvas, '#83E83E');
+    //waveformDrawer.init(decodedBuffer, View.masterCanvas, '#83E83E');
+    waveformDrawer.init(decodedBuffer, View.masterCanvas, '#346beb');
     var x = 0;
     var y = trackNumber * SAMPLE_HEIGHT;
     // First parameter = Y position (top left corner)
@@ -259,7 +259,6 @@ function finishedLoading(bufferList) {
     currentSong.setDecodedAudioBuffers(bufferList);
 
     buttonPlay.disabled = false;
-    buttonRecordMix.disabled = false;
 
     //enabling the loop buttons
     $('#loopBox > button').each(function (key, item) {
@@ -275,7 +274,7 @@ function finishedLoading(bufferList) {
     s.disabled = false;
 
     // Set each track volume slider to max
-    for (i = 0; i < currentSong.getNbTracks(); i++) {
+    for (i = 0; i < bufferList.length; i++) {
         // set volume gain of track i to max (1)
         //currentSong.setVolumeOfTrack(1, i);
         $(".volumeSlider").each(function (obj, value) {
@@ -348,7 +347,11 @@ function loadSong(songName) {
     xhr.onload = function (e) {
         // get a JSON description of the song
         var song = JSON.parse(this.response);
-
+	console.log(song)
+	song.instruments = [
+		{"name": "Bass", "sound": song.instruments[0].sound},
+		{"name": "Drums"}, {"name": "Lead"}, {"name": "Vocals"}, {"name": "Accompaniment"}
+	];
         // resize canvas depending on number of samples
         resizeSampleCanvas(song.instruments.length);
 
@@ -533,7 +536,15 @@ function drawSelection() {
 function drawFrequencies() {
     View.waveCanvasContext.save();
     //View.waveCanvasContext.clearRect(0, 0, View.waveCanvas.width, View.waveCanvas.height);
-    View.waveCanvasContext.fillStyle = "rgba(0, 0, 0, 0.05)";
+    // View.waveCanvasContext.fillStyle = "rgba(0, 0, 0, 0)";\
+
+    // Create linear gradient
+    const grad= View.waveCanvasContext.createLinearGradient(0,0,50,200);
+    grad.addColorStop(0, "#346beb");
+    grad.addColorStop(1, "#1b1885");
+
+    // Fill rectangle with gradient
+    View.waveCanvasContext.fillStyle = grad;
     View.waveCanvasContext.fillRect(0, 0, View.waveCanvas.width, View.waveCanvas.height);
 
     var freqByteData = new Uint8Array(currentSong.analyserNode.frequencyBinCount);
