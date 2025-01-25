@@ -42,7 +42,7 @@ server.listen(PORT || 3000, addrIP || "0.0.0.0", () => {
 app.get("/", (req, res) => res.sendFile(__dirname + "/index.html"));
 
 app.get("/multitrack*", (req, res) => {
-  const fileName = unescape(req.originalUrl.replace("/multitrack/",""))
+  const fileName = decodeURIComponent(req.originalUrl.replace("/multitrack/",""))
 //  console.log(req)
   res.sendFile(TRACKS_PATH + "/" + fileName)
 })
