@@ -349,8 +349,8 @@ function loadSong(songName) {
         var song = JSON.parse(this.response);
 	console.log(song)
 	song.instruments = [
-		{"name": "Bass", "sound": song.instruments[0].sound},
-		{"name": "Drums"}, {"name": "Lead"}, {"name": "Vocals"}, {"name": "Accompaniment"}
+		{"name": "Drums", "sound": song.instruments[0].sound},
+		{"name": "Bass"}, {"name": "Lead"}, {"name": "Vocals"}, {"name": "Accompaniment"}
 	];
         // resize canvas depending on number of samples
         resizeSampleCanvas(song.instruments.length);
