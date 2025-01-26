@@ -342,12 +342,12 @@ function loadSong(songName) {
 
 
     var xhr = new XMLHttpRequest();
+console.log(currentSong.url)
     xhr.open('GET', currentSong.url, true);
 
     xhr.onload = function (e) {
         // get a JSON description of the song
         var song = JSON.parse(this.response);
-	console.log(song)
 	song.instruments = [
 		{"name": "Drums", "sound": song.instruments[0].sound},
 		{"name": "Bass"}, {"name": "Lead"}, {"name": "Vocals"}, {"name": "Accompaniment"}

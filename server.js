@@ -41,9 +41,14 @@ server.listen(PORT || 3000, addrIP || "0.0.0.0", () => {
 // routing
 app.get("/", (req, res) => res.sendFile(__dirname + "/index.html"));
 
+app.get("/gettrack*", async (req, res) => {
+  const id = decodeURIComponent(req.originalUrl.replace("/gettrack/","")).replace(/\.[^/.]+$/, "");
+  const track = await getTrack(id);
+  res.sendFile(track.instruments[0].sound);
+})
+
 app.get("/multitrack*", (req, res) => {
   const fileName = decodeURIComponent(req.originalUrl.replace("/multitrack/",""))
-//  console.log(req)
   res.sendFile(TRACKS_PATH + "/" + fileName)
 })
 
@@ -83,6 +88,7 @@ const endsWith = (str, suffix) => str.indexOf(suffix, str.length - suffix.length
 
 isASoundFile = fileName => {
   if (endsWith(fileName, ".mp3")) return true;
+  if (endsWith(fileName, ".opus")) return true;
   if (endsWith(fileName, ".ogg")) return true;
   if (endsWith(fileName, ".wav")) return true;
   if (endsWith(fileName, ".m4a")) return true;
@@ -96,9 +102,11 @@ const getTrack = async id =>
 
     // possible filenames for the multitrack audio
     const fileNames = [
-       `${TRACKS_PATH}/${id}.mp4`, // Telegram
-       `${TRACKS_PATH}/${id}.m4a`, // Sparks
-       `${TRACKS_PATH}/${id}.ogg`, // Just in case
+       `${TRACKS_PATH}/${id}.mp4`,  // Telegram
+       `${TRACKS_PATH}/${id}.m4a`,  // Sparks
+       `${TRACKS_PATH}/${id}.opus`, // Sample audio
+       `${TRACKS_PATH}/${id}.wav`,  // Lossless
+       `${TRACKS_PATH}/${id}.flac`, // Lossless
     ]
 
     fileNames.forEach(function (v,k) {
