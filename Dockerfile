@@ -1,4 +1,4 @@
-FROM node:19.0-slim
+FROM node:20.0-slim
 EXPOSE 3000
 
 # Create app directory

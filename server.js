@@ -44,7 +44,7 @@ app.get("/", (req, res) => res.sendFile(__dirname + "/index.html"));
 app.get("/gettrack*", async (req, res) => {
   const id = decodeURIComponent(req.originalUrl.replace("/gettrack/","")).replace(/\.[^/.]+$/, "");
   const track = await getTrack(id);
-  res.sendFile(track.instruments[0].sound);
+  res.sendFile(path.resolve(track.instruments[0].sound));
 })
 
 app.get("/multitrack*", (req, res) => {
