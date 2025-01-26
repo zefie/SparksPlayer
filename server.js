@@ -42,7 +42,7 @@ server.listen(PORT || 3000, addrIP || "0.0.0.0", () => {
 app.get("/", (req, res) => res.sendFile(__dirname + "/index.html"));
 
 app.get("/gettrack*", async (req, res) => {
-  const id = decodeURIComponent(req.originalUrl.replace("/gettrack/","")).replace(/\.[^/.]+$/, "");
+  const id = decodeURIComponent(req.originalUrl.replace("/gettrack/",""));
   const track = await getTrack(id);
   res.sendFile(path.resolve(track.instruments[0].sound));
 })
