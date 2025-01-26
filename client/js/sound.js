@@ -8,7 +8,7 @@ var currentSong;
 // The audio context
 var context;
 
-var buttonPlay, buttonStop, buttonPause, buttonRecordMix;
+var buttonPlay, buttonStop, buttonPause;
 // List of tracks and mute buttons
 var divTrack;
 //The div where we display messages
@@ -56,7 +56,6 @@ function init() {
     buttonPlay = document.querySelector("#bplay");
     buttonPause = document.querySelector("#bpause");
     buttonStop = document.querySelector("#bstop");
-    buttonRecordMix = document.querySelector("#brecordMix");
 
     divTrack = document.getElementById("tracks");
     divConsole = document.querySelector("#messages");
@@ -213,7 +212,7 @@ function resetAllBeforeLoadingANewSong() {
     buttonPlay.disabled = true;
     divTrack.innerHTML = "";
 
-    buttonRecordMix.disabled = true;
+
 }
 
 var bufferLoader;
@@ -260,7 +259,6 @@ function finishedLoading(bufferList) {
     currentSong.setDecodedAudioBuffers(bufferList);
 
     buttonPlay.disabled = false;
-    buttonRecordMix.disabled = false;
 
     //enabling the loop buttons
     $('#loopBox > button').each(function (key, item) {
