@@ -13,7 +13,7 @@ To change the port or track path, you can use the following environment variable
 
 Then run `npm install` and then `node server.js` and open `http://localhost:3000` on a web browser. Then select one of your tracks in the drop down menu.
 
-The multitrack songs are located in the directory assigned to `TRACK_PATH`, this is by default `client/multitrack`, and a multitrack song a Sparks MP4 file.
+The multitrack songs are located in the directory assigned to `TRACKS_PATH`, this is by default `client/multitrack`, and a multitrack song is a Sparks MP4 file.
 
 The Sparks support is a dirty hack, but from my testing appears to work.
 
