@@ -4,7 +4,7 @@ If you know, you know.
 
 Right now it is hard coded and designed for Sparks tracks but in the future I may make it more dynamic if possible or needed.
 
-A sample track is provided in format similar to Sparks format. To use this, place the Sparks MP4 files into the `multitrack` directory. Do not use subfolders like MT5 does.
+A couple of sample tracks are provided in format similar to Sparks format. To use this, place the Sparks MP4 files into the `multitrack` directory. Do not use subfolders like MT5 does.
 
 In order to run it, you will need nodeJS and some node modules. Just run `npm install` to download the modules.
 
